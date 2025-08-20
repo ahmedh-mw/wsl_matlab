@@ -1,3 +1,6 @@
+#####################################################################
+#           Starting MATLAB Container
+#####################################################################
 LICENSE_FOLDER="/home/ahmedh/licenses"
 SHARED_FOLDER="/home/ahmedh/shared"
 LICENSE_FILE_NAME="license.dat"

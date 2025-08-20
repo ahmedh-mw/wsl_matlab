@@ -1,3 +1,6 @@
+#####################################################################
+#           Installing Docker CE
+#####################################################################
 # https://docs.docker.com/engine/install/ubuntu/
 # Add Docker's official GPG key for ubuntu:
 sudo apt-get update
@@ -19,7 +22,7 @@ sudo chown $USER /var/run/docker.sock
 sudo usermod -aG docker $USER
 newgrp docker
 
+# Optional: Installing portainer-ce
 # https://docs.portainer.io/start/install-ce/server/docker/linux
-# Install portainer-ce
-docker volume create portainer_data
-docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
+# docker volume create portainer_data
+# docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
