@@ -16,4 +16,6 @@ docker ps -a
 docker run --rm alpine echo 'hello-world'	    # --rm flag
 docker run --rm alpine printenv
 docker run -it --rm alpine /bin/sh		        # -it flag & CMD argument
+docker system prune                             # remove unused containers, networks
+docker system prune -a --volumes                # remove all unused images, containers, networks, and volumes
 
