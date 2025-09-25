@@ -19,5 +19,7 @@ cd ~/downloads
 
 ./mpm install --release=R2023b --destination /opt/matlab/R2023b --products Simulink Simulink_Coder Simscape Stateflow
 sudo ln -s /opt/matlab/R2023b/bin/matlab /usr/local/bin/matlab
+
 # Activate/provide your license 
 
+matlab
