@@ -74,5 +74,6 @@ RUN wget -q 'https://raw.githubusercontent.com/mathworks-ref-arch/matlab-dockerf
 # https://github.com/mathworks-ref-arch/matlab-dockerfile#help-make-matlab-even-better
 ENV MW_DDUX_FORCE_ENABLE=true MW_CONTEXT_TAGS=MATLAB:BATCHLICENSING:DOCKERFILE:V1
 
-ENTRYPOINT ["xvfb-run"]
+# ENTRYPOINT ["xvfb-run"]
+ENTRYPOINT []
 CMD ["/bin/bash"]

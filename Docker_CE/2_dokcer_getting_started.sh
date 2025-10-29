@@ -16,6 +16,13 @@ docker ps -a
 docker run --rm alpine echo 'hello-world'	    # --rm flag
 docker run --rm alpine printenv
 docker run -it --rm alpine /bin/sh		        # -it flag & CMD argument
+docker container prune                          # remove all stopped containers
+docker image prune                              # remove unused images
+docker volume prune                             # remove unused volumes
 docker system prune                             # remove unused containers, networks
 docker system prune -a --volumes                # remove all unused images, containers, networks, and volumes
+
+# Example of capturing output from Docker command from Windows host:
+$result = $(wsl -d Ubuntu -e docker run --rm hello-world);
+echo $result;
 
