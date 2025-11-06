@@ -49,8 +49,8 @@ time {
 ##############################################
 sudo podman image ls
 
-sudo podman rm -f $(sudo podman ps -aq)
-sudo podman stop --all -t0
+sudo podman rm -f $(sudo podman ps -aq --filter "label!=org.opencontainers.image.title=Portainer")
+sudo podman stop -t0 $(sudo podman ps -aq --filter "label!=org.opencontainers.image.title=Portainer")
 sudo podman ps -a
 sudo podman container prune
 sudo podman ps -a
