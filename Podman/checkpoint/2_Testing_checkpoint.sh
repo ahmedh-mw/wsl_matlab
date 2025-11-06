@@ -1,28 +1,34 @@
+export CI_IMAGE_NAME="matlab_ci"
+export CI_IMAGE_TAG="r2024b_oct25_ready"
+export IMAGE_FULLNAME="$CI_IMAGE_NAME:$CI_IMAGE_TAG"
+export CHECKPOINT_IMAGE="matlab_ci_checkpoint_img:v1"
 ##############################################
 #    Create an initial warmed-up container
 ##############################################
-# --privileged 
-sudo podman run --security-opt seccomp=unconfined -it --name container_to_warm matlab_ci:r2024b_ci_Aug25 /bin/bash
+export warm_container_name="container_to_warmup"
+export warm_image_name="matlab_ci_warmed_img:v1"
+sudo podman run -it --name $warm_container_name $IMAGE_FULLNAME /bin/bash
 <<COMMENT_BLOCK
 matlab
 new_system('a')
 COMMENT_BLOCK
 
-sudo podman commit container_to_warm matlab_ci_warmed_img:v1
+sudo podman commit $warm_container_name $warm_image_name
 ##############################################
 #    Create Checkpoint
 ##############################################
-sudo podman run -it --name container_to_checkpoint matlab_ci_warmed_img:v1 /bin/bash
+export cp_container_name="container_to_checkpoint"
+sudo podman run -it --name $cp_container_name $warm_image_name /bin/bash
 <<COMMENT_BLOCK
 matlab
 matlabSessionInit
 COMMENT_BLOCK
-sudo podman container checkpoint --create-image matlab_ci_checkpoint_img:v1 container_to_checkpoint
+sudo podman container checkpoint --create-image $CHECKPOINT_IMAGE $cp_container_name
 
 ##############################################
 #    Restore Checkpoint
 ##############################################
-sudo podman container restore matlab_ci_checkpoint_img:v1 --name matlab_restored
+sudo podman container restore $CHECKPOINT_IMAGE --name matlab_restored
 sudo podman exec -it matlab_restored py-matlab --batch 'sqrt(16)'
 sudo podman exec -it matlab_restored py-matlab --batch 'new_system("c")'
 sudo podman exec -it matlab_restored /bin/bash
@@ -30,7 +36,7 @@ sudo podman exec -it matlab_restored /bin/bash
 
 export container_name="matlab_restored1"
 time {
-    sudo podman container restore matlab_ci_checkpoint_img:v1 --name $container_name
+    sudo podman container restore $CHECKPOINT_IMAGE --name $container_name
     sudo podman exec -it $container_name py-matlab --batch 'sqrt(16)'
     sudo podman exec -it $container_name py-matlab --batch 'new_system("c")'
 }

@@ -44,6 +44,8 @@ sudo apt-get install -y podman
 # libseccomp: 2.5.5
 ###################
 
+# 16000 MB static RAM allocation with high mempry weight, 4 VCPU with 100 % reservation, default switch network adapter
+
 # Optional: Installing portainer-ce
 # https://docs.portainer.io/start/install-ce/server/docker/linux
 # sudo podman volume create portainer_data
