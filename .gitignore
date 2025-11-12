@@ -2,3 +2,4 @@
 env.yml
 .scripts.sh
 licenses/
+.vscode/

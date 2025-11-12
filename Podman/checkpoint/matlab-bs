@@ -1,0 +1,70 @@
+#!/bin/bash
+
+set -e
+
+# Parse --batch argument
+BATCH=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -batch)
+      BATCH="$2"
+      shift 2
+      ;;
+    *)
+      echo "Usage: $0 -batch <batch_cmds>"
+      exit 1
+      ;;
+  esac
+done
+
+if [ -z "$BATCH" ]; then
+  echo "Usage: $0 -batch <batch_cmds>"
+  exit 1
+fi
+
+INTERVAL=0.2
+
+# Set up paths
+HOME_PATH="$HOME"
+LOOP_ROOT_PATH="$HOME_PATH/.matlab"
+INBOUND_PATH="$LOOP_ROOT_PATH/.inbound"
+OUTBOUND_PATH="$LOOP_ROOT_PATH/.outbound"
+ARCHIVE_PATH="$LOOP_ROOT_PATH/.archive"
+PROCESS_ID="$$"
+INBOUND_FILE_PATH="$INBOUND_PATH/$PROCESS_ID.in"
+OUTBOUND_FILE_PATH="$OUTBOUND_PATH/$PROCESS_ID.out"
+ARCHIVE_FILE_PATH="$ARCHIVE_PATH/$PROCESS_ID.out"
+
+# Ensure directories exist
+mkdir -p "$INBOUND_PATH" "$OUTBOUND_PATH" "$ARCHIVE_PATH"
+
+# Write batch command to inbound file
+printf "%s" "$BATCH" > "$INBOUND_FILE_PATH"
+
+# Wait for outbound file to appear
+while [ ! -f "$OUTBOUND_FILE_PATH" ]; do
+  sleep "$INTERVAL"
+done
+
+EOF_MARKER="###############--EOF_EXECUTION--###############"
+
+# Read outbound file line by line, stopping at EOF marker
+# Open file descriptor 3 for reading
+exec 3< "$OUTBOUND_FILE_PATH"
+while true; do
+  if IFS= read -r line <&3; then
+    if [ "$line" = "$EOF_MARKER" ]; then
+      break
+    fi
+    echo "$line"
+  else
+    # No new data, sleep briefly and retry
+    sleep "$INTERVAL"
+  fi
+done
+exec 3<&-
+
+# Archive the output file
+mv -f "$OUTBOUND_FILE_PATH" "$ARCHIVE_FILE_PATH"
+
+exit 0
