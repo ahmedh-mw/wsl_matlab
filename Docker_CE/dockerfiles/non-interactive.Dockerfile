@@ -21,7 +21,7 @@ ARG MATLAB_INSTALL_LOCATION="/opt/matlab/${MATLAB_RELEASE}"
 
 # When you start the build stage, this Dockerfile by default uses the Ubuntu-based matlab-deps image.
 # To check the available matlab-deps images, see: https://hub.docker.com/r/mathworks/matlab-deps
-FROM mathworks/matlab-deps:${MATLAB_RELEASE}
+FROM docker.io/mathworks/matlab-deps:${MATLAB_RELEASE}
 
 # Declare build arguments to use at the current build stage.
 ARG MATLAB_RELEASE
@@ -74,6 +74,5 @@ RUN wget -q 'https://raw.githubusercontent.com/mathworks-ref-arch/matlab-dockerf
 # https://github.com/mathworks-ref-arch/matlab-dockerfile#help-make-matlab-even-better
 ENV MW_DDUX_FORCE_ENABLE=true MW_CONTEXT_TAGS=MATLAB:BATCHLICENSING:DOCKERFILE:V1
 
-# ENTRYPOINT ["xvfb-run"]
-ENTRYPOINT []
+ENTRYPOINT ["xvfb-run"]
 CMD ["/bin/bash"]

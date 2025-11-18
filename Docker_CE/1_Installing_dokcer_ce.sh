@@ -17,7 +17,7 @@ sudo apt-get update
 # Install docker engine
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 
-sudo tee /etc/docker/daemon2.json > /dev/null <<EOF
+sudo tee /etc/docker/daemon.json > /dev/null <<EOF
 {"default-ulimits": {"nofile": {"Name": "nofile","Hard": 65536,"Soft": 65536}}}
 EOF
 

@@ -17,15 +17,28 @@ sudo criu check
 #    Set Options
 ########################################
 sudo mkdir /etc/criu/
-sudo nano /etc/criu/runc.conf             # <==== should use this one
+sudo nano /etc/criu/runc.conf               # <==== use this one with runc
+sudo nano /etc/criu/default.conf            # <==== use this one with crun
+
 # ------------------------------------
-tcp-established
+ghost-limit 9223372036854775807
+skip-in-flight
+skip-file-rwx-check
+cgroup-root cpu:/new_cgroup_path
+# ------------------------------------
+ghost-limit 9223372036854775807
 skip-in-flight
 link-remap
-ghost-limit 10000000
-file-locks
 external mnt[]:s
-tcp-close true
 enable-external-masters
 skip-file-rwx-check
+cgroup-root cpu:/new_cgroup_path
+ext-mount-map auto
 # ------------------------------------
+tcp-established
+file-locks
+tcp-close true
+# ------------------------------------
+
+sudo rm -f /etc/criu/default.conf
+sudo rm -f /etc/criu/runc.conf 
