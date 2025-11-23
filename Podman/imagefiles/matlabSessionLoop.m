@@ -27,15 +27,6 @@ function matlabSessionLoop(exitSessionMarker)
 
     %------- warming up toolboxes --------%
     new_system('a')
-    
-    while true
-        disp('Waiting for active TCP connections to complete...')
-        pause(20);
-        [~,cmdOut]=system('netstat -atp');linesCount=count(string(cmdOut), newline);
-        if linesCount<=4
-            break;
-        end
-    end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %               Waiting for commands
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

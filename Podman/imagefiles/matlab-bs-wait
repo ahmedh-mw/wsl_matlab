@@ -1,0 +1,14 @@
+#!/bin/bash
+
+while true; do
+  echo "Waiting for active TCP connections to complete..."
+  sleep 20
+
+  # Get netstat output and count lines (Linux)
+  # Adjust/replace with `ss -tap` if netstat is unavailable
+  lines_count=$(netstat -atp 2>/dev/null | wc -l)
+
+  if [ "$lines_count" -le 4 ]; then
+    break
+  fi
+done
