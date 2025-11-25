@@ -38,7 +38,7 @@ crun --version
 #####################################################################
 sudo apt update
 sudo apt-get install -y podman
-podman info | grep -A 10 'ociRuntime'
+# podman info | grep -A 10 'ociRuntime'
 # sudo apt remove --purge podman
 # podman info
 

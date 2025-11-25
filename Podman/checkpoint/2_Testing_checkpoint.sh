@@ -15,19 +15,23 @@ sudo podman ps -a
 # sudo podman container rm -f $cp_container_test
 cd /tmp
 ##############################################
-#    #-Export  #-compress=none
+#    Creating checkpoint (#-Export  #-compress=none)
 ##############################################
+# Starting a standard MATLAB container
 export cp_container_name="container_to_checkpoint"
-export cp_container_test="container_test_export"
-
 sudo podman run -d --name $cp_container_name -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN $IMAGE_FULLNAME matlab-batch "matlabSessionLoop();"
 sudo podman exec $cp_container_name matlab-bs-wait
 
 time sudo podman container checkpoint --compress=none --export=checkpoint_dump.tar $cp_container_name
 
+##############################################
+#    Restoring checkpoint
+##############################################
+export cp_container_test="container_test_export"
 time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test123');pause(1);disp('test456');"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test___1');disp('test___2');"
 sudo podman exec $cp_container_test matlab-bs -batch "new_system('b')"
 sudo podman exec $cp_container_test matlab-bs -batch "x=14"
 sudo podman exec $cp_container_test matlab-bs -batch "x"
+sudo podman exec $cp_container_test matlab-bs -batch "sqrt(36)"
