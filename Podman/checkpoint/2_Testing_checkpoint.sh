@@ -19,7 +19,10 @@ cd /tmp
 ##############################################
 # Starting a standard MATLAB container
 export cp_container_name="container_to_checkpoint"
-sudo podman run -d --name $cp_container_name -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN $IMAGE_FULLNAME matlab-batch "matlabSessionLoop();"
+sudo podman run -d \
+    --name $cp_container_name \
+    -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN \
+    $IMAGE_FULLNAME matlab-batch "matlabSessionLoop();"
 sudo podman exec $cp_container_name matlab-bs-wait
 
 time sudo podman container checkpoint --compress=none --export=checkpoint_dump.tar $cp_container_name
