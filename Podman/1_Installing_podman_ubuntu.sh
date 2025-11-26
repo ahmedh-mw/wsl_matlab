@@ -42,15 +42,14 @@ sudo apt-get install -y podman
 # podman info
 
 # - Ubuntu 24.04 comes without neither runc nor crun installed by default.
-# - Installing Podman alone, wil linstall crun as a dependency and will configure Podman to use crun as the default runtime.
 ###################
 # podman version 4.9.3
 ###################
-# crun version 1.14.1
-# commit: de537a7965bfbe9992e2cfae0baeb56a08128171
+# crun version 1.25.0.0.0.1-993a
+# commit: 993ad9d57f4c346d640f5e69d50dd5d182908978
 # rundir: /run/user/1000/crun
 # spec: 1.0.0
-# +SYSTEMD +SELINUX +APPARMOR +CAP +SECCOMP +EBPF +WASM:wasmedge +YAJL
+# +SYSTEMD +SELINUX +APPARMOR +CAP +SECCOMP +EBPF +CRIU +WASM:wasmedge +YAJL
 ###################
 
 # Configure podman to use built crun as the default runtime
