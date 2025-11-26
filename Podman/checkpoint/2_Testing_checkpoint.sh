@@ -2,6 +2,7 @@ export CI_IMAGE_NAME="matlab_ci"
 export CI_IMAGE_TAG="r2024b_oct25_ready"
 export IMAGE_FULLNAME="$CI_IMAGE_NAME:$CI_IMAGE_TAG"
 export CHECKPOINT_IMAGE="matlab_ci_checkpoint_img:v1"
+# sudo apt-get install yq -y
 export MLM_LICENSE_TOKEN="$(yq '.settings.secrets.mlm_license_token' ./../env.yml)"
 ##############################################
 #    Clean up previous containers/images
@@ -14,6 +15,7 @@ sudo podman ps -a
 
 # sudo podman container rm -f $cp_container_test
 cd /tmp
+mkdir /tmp/ws_root
 ##############################################
 #    Creating checkpoint (#-Export  #-compress=none)
 ##############################################
@@ -22,6 +24,7 @@ export cp_container_name="container_to_checkpoint"
 sudo podman run -d \
     --name $cp_container_name \
     -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN \
+    -v /tmp/ws_root:/tmp/ws_root \
     $IMAGE_FULLNAME matlab-batch "matlabSessionLoop();"
 sudo podman exec $cp_container_name matlab-bs-wait
 

@@ -1,9 +1,8 @@
 ########################################
 #    Installing criu
 ########################################
-sudo add-apt-repository ppa:criu/ppa -y
-sudo apt install criu -y
 sudo apt update
+sudo apt install criu -y
 cd /usr/sbin
 sudo setcap cap_checkpoint_restore+eip criu
 sudo criu check
@@ -14,14 +13,13 @@ sudo criu check
 #####################################################################
 # Install Required Dependencies
 sudo apt update
-sudo apt install -y git build-essential autoconf automake libtool pkg-config libcap-dev libseccomp-dev libyajl-dev libsystemd-dev protobuf-c-compiler libprotobuf-c-dev python3-protobuf
+sudo apt install -y curl git build-essential autoconf automake libtool pkg-config libcap-dev libseccomp-dev libyajl-dev libsystemd-dev libtool libprotobuf-c-dev libcap-ng-dev libcriu-dev
 
 cd ~
 # Add WasmEdge repo and key
 curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | sudo bash -s -- -p /usr/local
 # This script will install the latest WasmEdge in /usr/local
 # By default, it includes the headers and libraries needed for development
-
 
 # Clone crun Source Code
 git clone https://github.com/containers/crun.git
@@ -37,7 +35,7 @@ crun --version
 #           Installing podman
 #####################################################################
 sudo apt update
-sudo apt-get install -y podman
+sudo apt-get install -y nftables podman
 # podman info | grep -A 10 'ociRuntime'
 # sudo apt remove --purge podman
 # podman info
@@ -61,6 +59,8 @@ sudo nano /etc/containers/containers.conf
 crun = [
     "/usr/local/bin/crun"
 ]
+[network]
+firewall_driver="iptables"
 # ------------------------------------
 podman info | grep -A 10 'ociRuntime'
 
