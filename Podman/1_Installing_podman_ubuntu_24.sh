@@ -60,7 +60,7 @@ crun = [
     "/usr/local/bin/crun"
 ]
 # ------------------------------------
-podman info | grep -A 10 'ociRuntime'
+sudo podman info | grep -A 10 'ociRuntime'
 
 # 16000 MB static RAM allocation with high mempry weight, 4 VCPU with 100 % reservation, default switch network adapter
 

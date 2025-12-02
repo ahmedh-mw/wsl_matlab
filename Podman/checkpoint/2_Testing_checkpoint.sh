@@ -3,22 +3,22 @@ export CI_IMAGE_TAG="r2024b_oct25_ready"
 export IMAGE_FULLNAME="$CI_IMAGE_NAME:$CI_IMAGE_TAG"
 export CHECKPOINT_IMAGE="matlab_ci_checkpoint_img:v1"
 # sudo apt-get install yq -y
+# cd ~/wsl_matlab/Podman
 export MLM_LICENSE_TOKEN="$(yq '.settings.secrets.mlm_license_token' ./../env.yml)"
 ##############################################
 #    Clean up previous containers/images
 ##############################################
 sudo podman image ls
 
-sudo podman stop -t0 $(sudo podman ps -aq --filter "label!=org.opencontainers.image.title=Portainer")
-sudo podman rm -f $(sudo podman ps -aq --filter "label!=org.opencontainers.image.title=Portainer")
+sudo podman stop -t0 $(sudo podman ps -aq)
+sudo podman rm -f $(sudo podman ps -aq)
 sudo podman ps -a
 
-# sudo podman container rm -f $cp_container_test
-cd /tmp
-mkdir /tmp/ws_root
 ##############################################
 #    Creating checkpoint (#-Export  #-compress=none)
 ##############################################
+cd ~
+mkdir /tmp/ws_root
 # Starting a standard MATLAB container
 export cp_container_name="container_to_checkpoint"
 time sudo podman run -d \
@@ -49,8 +49,8 @@ time {
                 --name $cp_dummy \
                 alpine sleep infinity
         time sudo podman container checkpoint --compress=none --export=checkpoint_dump_small.tar $cp_dummy
-        sudo podman stop -t0 $(sudo podman ps -a)
-        sudo podman rm -f $(sudo podman ps -a)
+        sudo podman stop -t0 $(sudo podman ps -aq)
+        sudo podman rm -f $(sudo podman ps -aq)
         sudo podman ps -a
         
 }
