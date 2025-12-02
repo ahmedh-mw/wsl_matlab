@@ -2,7 +2,7 @@
 This document describes how to prepare your environment and explore checkpointing using Podman containers and MATLAB.
 
 ## 1. Installing Podman
-Install Podman and its prerequisites using `Podman/1_Installing_podman.sh`.
+Install Podman and its prerequisites using `Podman/1_Installing_podman_debian_13.sh`.
 - **Installing CRIU:** CRIU is required to enable checkpoint/restore functionality on Linux.
 - **Installing crun:** The crun version that ships with some distributions may not include CRIU support. Build and install crun configured with CRIU support (use `--with-criu` when running `./configure`).
 - Install the Podman package.
