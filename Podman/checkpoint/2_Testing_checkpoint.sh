@@ -21,20 +21,26 @@ mkdir /tmp/ws_root
 ##############################################
 # Starting a standard MATLAB container
 export cp_container_name="container_to_checkpoint"
-sudo podman run -d \
-    --name $cp_container_name \
-    -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN \
-    -v /tmp/ws_root:/tmp/ws_root \
-    $IMAGE_FULLNAME matlab-batch "matlabSessionLoop();"
-sudo podman exec $cp_container_name matlab-bs-wait
-
+time sudo podman run -d \
+        --name $cp_container_name \
+        -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN \
+        -v /tmp/ws_root:/tmp/ws_root \
+        $IMAGE_FULLNAME matlab-batch "matlabSessionLoop();"
+echo "--------------------------------------- Container has been created"
+time sudo podman exec $cp_container_name matlab-bs-wait-start
+echo "--------------------------------------- MATLAB has been started"
+time sudo podman exec $cp_container_name matlab-bs-wait-init
+echo "--------------------------------------- MATLAB has been initialized"
+time sudo podman exec $cp_container_name matlab-bs-wait-ready
+echo "--------------------------------------- Container is ready"
 time sudo podman container checkpoint --compress=none --export=checkpoint_dump.tar $cp_container_name
-
+echo "--------------------------------------- Checkpoint has been exported"
 ##############################################
 #    Restoring checkpoint
 ##############################################
 export cp_container_test="container_test_export"
 time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
+echo "--------------------------------------- Checkpoint has been restored"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test123');pause(1);disp('test456');"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test___1');disp('test___2');"
 sudo podman exec $cp_container_test matlab-bs -batch "new_system('b')"

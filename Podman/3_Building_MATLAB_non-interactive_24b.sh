@@ -15,6 +15,7 @@ sudo podman build -f dockerfiles/non-interactive.Dockerfile \
     -t "$IMAGE_FULLNAME" .
 
 export CI_IMAGE_TAG="r2024b_oct25_ready"
+sudo sed -i 's/\r$//' imagefiles/matlab-bs*
 export IMAGE_FULLNAME="$CI_IMAGE_NAME:$CI_IMAGE_TAG"
 sudo podman build -f dockerfiles/matlab-ci-ready.Dockerfile \
     -t "$IMAGE_FULLNAME" .

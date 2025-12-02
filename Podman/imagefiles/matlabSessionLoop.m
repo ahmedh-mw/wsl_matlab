@@ -24,12 +24,16 @@ function matlabSessionLoop(exitSessionMarker)
             mkdir(p);
         end
     end
+    startFilePath = fullfile(loopRootPath, "start.txt");
+    writelines("MATLAB has been started...", startFilePath);
 
     %------- warming up toolboxes --------%
     new_system('a')
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %               Waiting for commands
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    readyFilePath = fullfile(loopRootPath, "init.txt");
+    writelines("MATLAB has been initialized...", readyFilePath);
     disp('Waiting for commands...')
     EOF_MARKER = "###############--EOF_EXECUTION--###############";
     while true
