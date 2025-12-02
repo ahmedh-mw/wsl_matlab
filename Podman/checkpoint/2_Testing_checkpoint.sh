@@ -22,6 +22,7 @@ mkdir /tmp/ws_root
 # Starting a standard MATLAB container
 export cp_container_name="container_to_checkpoint"
 time sudo podman run -d \
+        --network=none \
         --name $cp_container_name \
         -e MLM_LICENSE_TOKEN=$MLM_LICENSE_TOKEN \
         -v /tmp/ws_root:/tmp/ws_root \
@@ -35,11 +36,33 @@ time sudo podman exec $cp_container_name matlab-bs-wait-ready
 echo "--------------------------------------- Container is ready"
 time sudo podman container checkpoint --compress=none --export=checkpoint_dump.tar $cp_container_name
 echo "--------------------------------------- Checkpoint has been exported"
+
+
+##############################################
+#    Warmup a dummy container - required for new machines
+##############################################
+cd ~
+export cp_dummy="dummy_container"
+time {
+        sudo podman run -d \
+                --network=none \
+                --name $cp_dummy \
+                alpine sleep infinity
+        time sudo podman container checkpoint --compress=none --export=checkpoint_dump_small.tar $cp_dummy
+        sudo podman stop -t0 $(sudo podman ps -a)
+        sudo podman rm -f $(sudo podman ps -a)
+        sudo podman ps -a
+        
+}
 ##############################################
 #    Restoring checkpoint
 ##############################################
+cd ~
+mkdir /tmp/ws_root
+
 export cp_container_test="container_test_export"
-time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
+# time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
+time sudo podman container restore --import=checkpoint_dump_bak.tar --name $cp_container_test
 echo "--------------------------------------- Checkpoint has been restored"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test123');pause(1);disp('test456');"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test___1');disp('test___2');"
