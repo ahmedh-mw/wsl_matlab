@@ -50,3 +50,13 @@ Restoring a MATLAB checkpoint and executing commands. See `Podman/checkpoint/2_T
     sudo podman exec $cp_container_test matlab-bs -batch "sqrt(36)"
     ```
     > The `matlab-bs` helper script facilitates IPC between a `podman exec` process and the warmed MATLAB session inside the container.
+
+
+
+Certainly! Here’s how you can write the entire table content to a README file in markdown format, preserving the column headers and all the data. The markdown table format is used for readability and compatibility with most README viewers (e.g., GitHub, GitLab).
+
+---
+
+# Experiment Results Table
+
+![alt text](benchmark_data.png)

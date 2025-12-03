@@ -53,12 +53,14 @@ sudo apt-get install -y podman
 ###################
 
 # Configure podman to use built crun as the default runtime
-sudo nano /etc/containers/containers.conf
-# ------------------------------------
+sudo tee /etc/containers/containers.conf > /dev/null <<EOF
 [engine.runtimes]
 crun = [
     "/usr/local/bin/crun"
 ]
+EOF
+
+# sudo cat /etc/containers/containers.conf
 # ------------------------------------
 sudo podman info | grep -A 10 'ociRuntime'
 

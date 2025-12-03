@@ -61,8 +61,8 @@ cd ~
 mkdir /tmp/ws_root
 
 export cp_container_test="container_test_export"
-# time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
-time sudo podman container restore --import=checkpoint_dump_bak.tar --name $cp_container_test
+time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
+#time sudo podman container restore --import=checkpoint_dump_bak.tar --name $cp_container_test
 echo "--------------------------------------- Checkpoint has been restored"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test123');pause(1);disp('test456');"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test___1');disp('test___2');"

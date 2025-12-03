@@ -51,14 +51,16 @@ sudo apt-get install -y nftables podman
 ###################
 
 # Configure podman to use built crun as the default runtime
-sudo nano /etc/containers/containers.conf
-# ------------------------------------
+sudo tee /etc/containers/containers.conf > /dev/null <<EOF
 [engine.runtimes]
 crun = [
     "/usr/local/bin/crun"
 ]
 [network]
 firewall_driver="iptables"
+EOF
+
+# sudo cat /etc/containers/containers.conf
 # ------------------------------------
 podman info | grep -A 10 'ociRuntime'
 
