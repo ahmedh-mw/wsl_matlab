@@ -66,7 +66,8 @@ time sudo podman container restore --import=checkpoint_dump.tar --name $cp_conta
 echo "--------------------------------------- Checkpoint has been restored"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test123');pause(1);disp('test456');"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test___1');disp('test___2');"
-sudo podman exec $cp_container_test matlab-bs -batch "new_system('b')"
+sudo podman exec $cp_container_test matlab-bs -batch "new_system('b')"          # Simlulink model creation
+sudo podman exec $cp_container_test matlab-bs -batch "close_system('b')"
 sudo podman exec $cp_container_test matlab-bs -batch "x=14"
 sudo podman exec $cp_container_test matlab-bs -batch "x"
 sudo podman exec $cp_container_test matlab-bs -batch "sqrt(36)"

@@ -1,4 +1,5 @@
 # Ignore everything - base
+~$*
 env.yml
 .scripts.sh
 licenses/
