@@ -28,8 +28,8 @@ function matlabSessionLoop(exitSessionMarker)
     writelines("MATLAB has been started...", startFilePath);
 
     %------- warming up toolboxes --------%
-    new_system('_dummy_model_');
-    close_system('_dummy_model_');
+    new_system('dummy_model');
+    close_system('dummy_model');
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %               Waiting for commands
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
