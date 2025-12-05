@@ -53,7 +53,7 @@ time {
         sudo podman rm -f $(sudo podman ps -aq)
         sudo podman ps -a
         
-}
+# }
 ##############################################
 #    Restoring checkpoint
 ##############################################
@@ -64,10 +64,17 @@ export cp_container_test="container_test_export"
 time sudo podman container restore --import=checkpoint_dump.tar --name $cp_container_test
 #time sudo podman container restore --import=checkpoint_dump_bak.tar --name $cp_container_test
 echo "--------------------------------------- Checkpoint has been restored"
-sudo podman exec $cp_container_test matlab-bs -batch "disp('test123');pause(1);disp('test456');"
+sudo podman exec $cp_container_test matlab-bs -batch "disp('-------------------------');"
 sudo podman exec $cp_container_test matlab-bs -batch "disp('test___1');disp('test___2');"
-sudo podman exec $cp_container_test matlab-bs -batch "new_system('dummy_model')"          # Simlulink model creation
-# sudo podman exec $cp_container_test matlab-bs -batch "close_system('b')"
-sudo podman exec $cp_container_test matlab-bs -batch "x=14"
-sudo podman exec $cp_container_test matlab-bs -batch "x"
-sudo podman exec $cp_container_test matlab-bs -batch "sqrt(36)"
+
+# Simlulink model creation
+sudo podman exec $cp_container_test matlab-bs -batch "
+        disp('creating simulink model');
+        new_system('dummy_model');
+        disp('model has been created');
+        close_system('dummy_model');
+        disp('model has been deleted');"
+
+sudo podman exec $cp_container_test matlab-bs -batch "x=14;"
+sudo podman exec $cp_container_test matlab-bs -batch "fprintf('x=%d\n', x);"
+sudo podman exec $cp_container_test matlab-bs -batch "fprintf('sqrt(36)=%d\n', sqrt(36));"
