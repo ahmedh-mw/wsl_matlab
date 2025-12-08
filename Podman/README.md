@@ -28,6 +28,8 @@ Warming up and checkpointing a standard MATLAB container. See `Podman/3_Testing_
     > matlabSessionLoop.m helper script is used to start an inter-process communication (IPC) loop"
 1. Waiting for the MATLAB container to finish warming up
     ```bash
+    sudo podman exec $cp_container_name matlab-bs-wait-start
+    sudo podman exec $cp_container_name matlab-bs-wait-init
     sudo podman exec $cp_container_name matlab-bs-wait-ready
     ```
     > matlab-bs-wait-ready.m helper script is used to wait for all tcp connections within the container to complete.

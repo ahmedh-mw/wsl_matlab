@@ -1,6 +1,7 @@
 # cd <wsl_matlab_repo>/Podman/
 
-export IMAGE_NAME="slcicd.azurecr.io/slcheck/matlab_ci"
+export CONTAINER_REGISTRY=""            # e.g.: slcicd.azurecr.io/slcheck
+export IMAGE_NAME="${CONTAINER_REGISTRY:+$CONTAINER_REGISTRY/}matlab_ci"
 export CI_IMAGE_TAG="r2024b_oct25_ready"
 export CI_IMAGE_FULLNAME="$IMAGE_NAME:$CI_IMAGE_TAG"
 export CHECKPOINT_IMAGE="matlab_ci_checkpoint_img:v1"
@@ -37,7 +38,7 @@ time sudo podman exec $cp_container_name matlab-bs-wait-init
 echo "--------------------------------------- MATLAB has been initialized"
 time sudo podman exec $cp_container_name matlab-bs-wait-ready
 echo "--------------------------------------- Container is ready"
-time sudo podman container checkpoint --compress=none --export=checkpoint_dump.tar $cp_container_name
+time sudo podman container checkpoint --compress=none --export=/opt/checkpoint_dump.tar $cp_container_name
 echo "--------------------------------------- Checkpoint has been exported"
 
 ##############################################
