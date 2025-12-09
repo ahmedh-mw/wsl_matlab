@@ -1,5 +1,37 @@
 #!/bin/bash
 
+HOME_PATH="$HOME"
+LOOP_ROOT_PATH="$HOME_PATH/.matlab"
+START_FILE_PATH="$LOOP_ROOT_PATH/start.txt"
+counter=0
+while true; do
+  if [[ -f $START_FILE_PATH ]]; then
+    break
+  fi
+
+  if (( counter % 50 == 0 )); then   # every 0.2 * 50 = 10 seconds
+    echo "Waiting for MATLAB to start..."
+  fi
+
+  sleep 0.2
+  ((counter++))
+done
+
+INIT_FILE_PATH="$LOOP_ROOT_PATH/init.txt"
+counter=0
+while true; do
+  if [[ -f $INIT_FILE_PATH ]]; then
+    break
+  fi
+
+  if (( counter % 50 == 0 )); then   # every 0.2 * 50 = 10 seconds
+    echo "Waiting for MATLAB to intialize..."
+  fi
+
+  sleep 0.2
+  ((counter++))
+done
+
 counter=0
 while true; do
   if (( counter % 20 == 0 )); then   # every 0.2 * 20 = 4 seconds

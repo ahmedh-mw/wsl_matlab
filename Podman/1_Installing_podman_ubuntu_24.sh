@@ -70,3 +70,4 @@ sudo podman info | grep -A 10 'ociRuntime'
 # https://docs.portainer.io/start/install-ce/server/docker/linux
 # sudo podman volume create portainer_data
 # sudo podman run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /run/podman/podman.sock:/var/run/docker.sock -v portainer_data:/data docker.io/portainer/portainer-ce:lts
+# >> https://localhost:9443/

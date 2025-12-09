@@ -21,6 +21,7 @@ sudo podman build -f dockerfiles/non-interactive.Dockerfile \
     --build-arg MATLAB_PRODUCT_LIST="$PRODUCTS" \
     -t "$IMAGE_FULLNAME" .
 
+# sudo podman pull "$IMAGE_FULLNAME"
 # sudo podman push "$IMAGE_FULLNAME"
 
 #####################################
