@@ -30,7 +30,7 @@ Warming up and checkpointing a standard MATLAB container. See `Podman/3_Testing_
     ```bash
     sudo podman exec $cp_container_name matlab-bs-wait-ready
     ```
-    > matlab-bs-wait-ready.m helper script is used to wait for all tcp connections within the container to complete.
+    > matlab-bs-wait-ready.m helper script is used to wait for MATLAB to start and initialize then wait for all tcp connections within the container to complete.
 1. Creating a MATLAB checkpoint
     ```bash
     time sudo podman container checkpoint --compress=none --export=checkpoint_dump.tar

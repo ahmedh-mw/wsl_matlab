@@ -33,8 +33,8 @@ function matlabSessionLoop(exitSessionMarker)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %               Waiting for commands
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    readyFilePath = fullfile(loopRootPath, "init.txt");
-    writelines("MATLAB has been initialized...", readyFilePath);
+    initFilePath = fullfile(loopRootPath, "init.txt");
+    writelines("MATLAB has been initialized...", initFilePath);
     disp('Waiting for commands...')
     EOF_MARKER = "###############--EOF_EXECUTION--###############";
     while true

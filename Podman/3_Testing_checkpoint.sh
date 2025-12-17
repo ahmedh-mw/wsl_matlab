@@ -13,9 +13,9 @@ export MLM_LICENSE_TOKEN="$(yq '.settings.secrets.mlm_license_token' ./../env.ym
 ##############################################
 sudo podman image ls
 
-sudo podman stop -t0 $(sudo podman ps -aq)
-sudo podman rm -f $(sudo podman ps -aq)
-sudo podman ps -a
+sudo podman stop -t0 $(sudo podman ps -aq --filter 'label!=.*=Portainer')
+sudo podman rm -f $(sudo podman ps -aq --filter 'label!=.*=Portainer')
+sudo podman ps -a --filter 'label!=.*=Portainer'
 
 ##############################################
 #    Creating checkpoint (#-Export  #-compress=none)
@@ -56,9 +56,9 @@ sudo podman ps -a
 #                 --name $cp_dummy \
 #                 alpine sleep infinity
 #         time sudo podman container checkpoint --compress=none --export=checkpoint_dump_small.tar $cp_dummy
-#         sudo podman stop -t0 $(sudo podman ps -aq)
-#         sudo podman rm -f $(sudo podman ps -aq)
-#         sudo podman ps -a
+#         sudo podman stop -t0 $(sudo podman ps -aq --filter 'label!=.*=Portainer')
+#         sudo podman rm -f $(sudo podman ps -aq --filter 'label!=.*=Portainer')
+#         sudo podman ps -a --filter 'label!=.*=Portainer'
 # }
 ##############################################
 #    Restoring checkpoint
